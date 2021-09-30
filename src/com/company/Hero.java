@@ -8,6 +8,10 @@ public class Hero extends Person{
         this.luck = luck;
     }
 
+    public void setHealth(int health) {
+        // do your checks to see if goes below zero?
+    }
+
 //    public void heroAttack () {
 //        System.out.println("You whip your hair back and forth and slap well conditioned hair across your opponents ugly face");
 //        enemy1.health = enemy1.health - 20;

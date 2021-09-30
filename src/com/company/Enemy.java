@@ -10,6 +10,10 @@ public class Enemy extends Person{
         this.rage = rage;
     }
 
+    public boolean isDefeated() {
+        return false;
+    }
+
     public int getUgliness() {
         return ugliness;
     }
