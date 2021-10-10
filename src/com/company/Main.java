@@ -7,6 +7,34 @@ public class Main {
         // Player inputs
         Scanner myScanner = new Scanner(System.in);
 
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println("___________________________________________________________________________________________________________________________ ");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println("        8888888     88     88  8888888     8888888     88         888888888      8888888888  888888888      888");
+        System.out.println("        88     88   88     88  88     88   88     88   88         88                 88      88            88 88");
+        System.out.println("        88    88    88     88  88    88    88    88    88         88                 88      88           88   88");
+        System.out.println("        88888888    88     88  88888888    88888888    88         88888              88      88888       88     88");
+        System.out.println("        88     88   88     88  88     88   88     88   88         88                 88      88          888888888");
+        System.out.println("        88      88  88     88  88      88  88      88  88         88                 88      88          88     88");
+        System.out.println("        88     88   88     88  88     88   88     88   88         88                 88      88          88     88");
+        System.out.println("        88888888      88888    88888888    88888888    888888888  888888888          88      888888888   88     88");
+        System.out.println("                                                                                          //");
+        System.out.println("            888   8888   8     8  88888  88  8  88888  8   8  888    88888         _______||_______  ");
+        System.out.println("           8   8  8   8  8     8  8      8 8 8    8    8   8  8  8   8             <______||______>");
+        System.out.println("           8   8  8   8   8   8   888    8 8 8    8    8   8  8  8   888           |      ||      |");
+        System.out.println("           88888  8   8   8   8   8      8  88    8    8   8  888    8             |``````||``````|");
+        System.out.println("           8   8  8   8    8 8    8      8  88    8    8   8  8  8   8              | o   ||  o  |");
+        System.out.println("           8   8  8888      8     88888  8   8    8     888   8   8  88888          | o o  o o o |");
+        System.out.println("                                                                                     |  o o o o |");
+        System.out.println("                                                                                     `__________`");
+        System.out.println(" ");
+        System.out.println("___________________________________________________________________________________________________________________________ ");
+        System.out.println(" ");
+        System.out.println(" ");
+
         System.out.println("Enter your name: ");
         String name = myScanner.next();
         System.out.println("Are you feeling lucky today? Type a number between 1-10 with 10 being the most lucky (game is easier the luckier you are!): ");
@@ -17,9 +45,8 @@ public class Main {
         Hero hero = new Hero(100, name, tea, luck);
 
         // Setting the story of the Game
-//        TypeWriter.type(" ");
+
         TypeWriter.type(hero.name + ", the " + hero.tea + " Bubble Tea maniac, continues his Bubble Tea Adventures..");
-//        TypeWriter.type(" ");
         int numberOfTeas = (int) (Math.random() * (5 + 1) + 5);
 
         Enemy enemy1 = new Enemy(100, "Sound as a Pound, Andy", "Mango Tapioca", 3, 5);
