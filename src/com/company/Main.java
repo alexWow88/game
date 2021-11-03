@@ -71,7 +71,7 @@ public class Main {
         TypeWriter.type("...");
         TypeWriter.type("Your first opponent steps up... It's " + enemy1.name + " the " + enemy1.tea + " Bubble Tea Lover..and they look MAD!");
 
-        // Round 1 (Opponent 1)
+        // R ound 1 (Opponent 1)
 
         for (int i = 0; i < 100; i++) {
             if (hero.health != 0 && enemy1.health != 0) {
