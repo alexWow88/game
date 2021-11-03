@@ -1,152 +1,198 @@
-![alt text](./assets/images/readme-image.PNG) 
+![alt text](./assets/images/bubble-tea.PNG) 
 # Bubble Tea Adventure Game
-A recreation of the iPhone calculator. All the basic calculator functionality you would need on your phone and on the go!
+A whacky text-based battle game where you play as a crazed Bubble Tea junky who constantly gets into fights at the Bubble Tea shop. You just can't handle your Bubble Tea!
 
 ## General Info 
-I made this during week 3 of my software development course at _nology. 
-
-This basic calculator comes with its challenges when coding. Functions must be written to handle On Click Events and handle the computations regardless of what other numbers or operators have already been clicked. Some clever play with Arrays, Strings, Splits, and If Statements to get it to cover all the bases.
-All operations have been thoroughly End-to-End Tested using Cypress.
+I made this during week 7 of my software development course at _nology. 
+This project was used to showcase knowledge of Classes and extending off a Class as well as accessing/changing properties via Getters and Setters. This game is purely text-based and played from the Terminal.
 
 ## Technologies used
-* Javascript ES6
-* HTML 5
-* CSS 3
-* End-To-End Testing with Cypress
+* Java
 
-## What can it do
-This calculator can handle all the basic operations of your typical cell phone calculator
-
-* Take integer and decimal values
-* Handle basic operations: Addition, Subtraction, Multiplication, Division
-* Clear displays
-* 2 Displays: Display the result of the current operations pressed and a list of all buttons pressed
-* Negative/Positive button to change the result to the inverse
-* Percentage value of the result in the display
+## Steps of the game:
+* Pick your name
+* Pick how lucky you feel that day (luckier will make the game easier as you are more likely to do a Critical Hit on attack)
+* Pick your favorite Bubble Tea (will be mentioned in game at various times)
+* Round 1: Turn-based battle with Opponent 1. Attack or Heal.
+* Round 2: Battle with Opponent 2.
+* Round 3: Battle with your Boss, the Final Boss.
+* If you defeat all 3 opponents before they take you down to 0 health, you win the game!
 
 ## Under the Hood
-The layout is the least complex bit of remaking the iPhone calculator. A div for the displays and a div for all the buttons. A grid was used to arrange the buttons in 4 columns as they are on the iPhone. A media query handles when the display screen is larger than a cell phone to ensure the calculator will only reach a maximum size and not get stretched by the display.
-````javascript
-<div class="calculator">
-    <div id="display" class="display">
-      <div id="display-list" class="display-list" data-cy="display-list"></div>
-      <div id="displayResult" class="display-result" data-cy="display-result"></div>
-    </div>
-    <section class="keypad">
-      <button id="button-clear" class="keypad__button keypad__clear" data-cy="clear">AC</button>
-      <button id="button-negPos" class="keypad__button keypad__negPos" data-cy="negPos">+/-</button>
-      <button id="button-percent" class="keypad__button keypad__percent" data-cy="percent">%</button>
-      <button id="button-divide" class="keypad__button keypad__divide" data-cy="divide">/</button>
-````
-On the Javascript side of things, at the top of the Javascript file, the buttons and displays are selected with the use of document.querySelector and document.getElementById.
-At the bottom, Event Listeners are added to each of these elements to trigger the necessary functions to run.
+After deciding on how the game will work, I settled on 3 classes. "Person" is the first class and both the "Hero" and "Enemy" class extend from the "Person" class as both will share the same properties. Hero will have an additional property of "luck" which will be used to make the game easier/harder. Enemy has properties of "ugliness" which will determine if you take damage during your turn, and "rage" which if a higher number will make it more likely for the enemy to land a Critical Hit (works exactly the same as "luck" for the Hero). See below snippets of code from each class.
+Now that I have my classes and have generated Getters and Setters to access the Hero and Enemy properties, I started to code the story and rounds of the game.
 
 ````javascript
-const displayList = document.querySelector(".display-list");
-const displayResult = document.querySelector(".display-result");
-const buttonOne = document.getElementById("button-1");
+public class Person {
+    private int health = 100;
+    private String name;
+    private String tea;
+
+    public Person(int health, String name, String tea) {
+        this.health = health;
+        this.name = name;
+        this.tea = tea;
+    } 
+
 ...
 
-...
-buttonNine.addEventListener("click", () => attachNum("9"));
-buttonZero.addEventListener("click", () => attachNum("0"));
-buttonTimes.addEventListener("click", () => attachSymb("*"));
-buttonMinus.addEventListener("click", () => attachSymb("-"));
-...
-````
+public class Hero extends Person{
+    private int luck;
 
-Now that the buttons can now be pressed and are triggering functions to run, it is just a matter of making sure the function can handle all possible valid inputs (adding and then subtracting, handling negative values, etc.) and array manipulation.
-
-To enable numbers being able to print into both displays, empty array variables are created and functions are triggered to push the new pressed number into the array.
-````javascript
-let resultOfArr = [];
-let listOfArr = [];
-let newNum = [];
-let newSymb = [];
-
-const attachNum = (newNum) => {
-  resultOfArr.push(...newNum);
-  listOfArr.push(...newNum);
-  displayList.innerHTML = listOfArr.join("");
-};
-````
-
-For the operator functions, let's look at just one. Let's look at adding a subtraction, addition, multiplication, or division operation. 
-
-What I wanted to have happen when a new operator was typed, was that if 2 numbers and an operation had already been clicked previously, the calculator would go ahead and complete this operation before adding the new operation. So if 2+2 was already clicked and you then clicked "-" the result display would display 4 because 2+2 was added. This is typical of a basic calculator.
-
-We start with confirming whether a "-" is already in the array holding the 2 numbers and operator already clicked. As we intend to .split("-") the .join("") of the array, we need to be mindful that a negative first number in the array will cause a split to have 3 indeces (the 0 index will have an empty string).
-To handle this possiblility, an if and else if are used. If the first value is negative, then the inverse of index 1 is subtracted by index 2. As these values are currently a string, you have to use a parseFloat() to convert them to numbers and complete the mathematical equation. If the first value in the array was not a "-" than the split will only split the array into 2 indeces and the index 0 will be subtracted by index 1.
-The addition, multipliation, and division is more straight forward. These operators would not appear more than once within the array like the "-" in a negative number. Depending on which operator is included, I .split() by that operator and then complete the mathematical operation of index 0 and 1.
-Now that I have a single result, I run my function to display the result in the display, turn it back to a string, and then split it. At this point, I push the new operator into the arrays for this single result as well as a the array holding all the clicked buttons. 
-Now I am ready to click another button and then another operator and this function will run again.
-
-````javascript
-const attachSymb = (newSymb) => {
-  if (resultOfArr.join("").includes("-")) {
-    let splitResultArr = resultOfArr.join("").split("-");
-    if (resultOfArr[0] == "-" && splitResultArr.length === 3) {
-        resultOfArr = ((-1)*parseFloat(splitResultArr[1])) - parseFloat(splitResultArr[2]);
-        displayResultAndSplitResultsArr();
-    } else if (resultOfArr[0] !== "-" && splitResultArr.length == 2) {
-        resultOfArr = parseFloat(splitResultArr[0]) - parseFloat(splitResultArr[1]);
-        displayResultAndSplitResultsArr();
-      };
-  };
-  if (resultOfArr.join("").includes("+")) {
-    let splitResultArr = resultOfArr.join("").split("+");
-    resultOfArr = parseFloat(splitResultArr[0]) + parseFloat(splitResultArr[1]);
-    displayResultAndSplitResultsArr();
-  } else if (resultOfArr.join("").includes("*")) {
-      let splitResultArr = resultOfArr.join("").split("*");
-      resultOfArr = parseFloat(splitResultArr[0]) * parseFloat(splitResultArr[1]);
-      displayResultAndSplitResultsArr();
-    } else if (resultOfArr.join("").includes("/")) {
-      let splitResultArr = resultOfArr.join("").split("/");
-      resultOfArr = parseFloat(splitResultArr[0]) / parseFloat(splitResultArr[1]);
-      displayResultAndSplitResultsArr();
+    public Hero(int health, String name, String tea, int luck) {
+        super(health, name, tea);
+        this.luck = luck;
     }
-  resultOfArr.push(...newSymb);
-  listOfArr.push(...newSymb);
-  displayList.innerHTML = listOfArr.join("");
-};
 
+    ...
 
-const displayResultAndSplitResultsArr = () => {
-  displayResult.innerHTML = resultOfArr;
-  resultOfArr = String(resultOfArr);
-  resultOfArr = resultOfArr.split("");
+public class Enemy extends Person{
+    private int ugliness;
+    private int rage;
+
+    public Enemy(int health, String name, String tea, int ugliness, int rage) {
+        super(health, name, tea);
+        this.ugliness = ugliness;
+        this.rage = rage;
+    }
+````
+To make the game more enjoyable, you cannot just immediately start battling opponents without some backstory. I start with lines upon lines of just setting the scene and taking the Hero player details. As I did not want all of the story text to be printed at once to the screen and wanted it to print at the same speed as the player could read the story, a 4th class called TypeWriter was created to print each character in the lines of text with a delay between each character. See below.
+
+````javascript
+public class TypeWriter {
+
+    public static void type(String message) throws InterruptedException {
+        // slowly print text
+       for (char c: message.toCharArray()
+             ) {
+            System.out.print(c);
+            Thread.sleep(10);
+        }
+        try
+        {
+            System.in.read();
+        }
+        catch(Exception e)
+        {}
+    }
 }
 ````
 
-Now that I can handle multiple operations, I want to test it End-to-End to be sure that I do not cause a bug later down the road when I make any changes. For this testing, I used Cypress.
-See the below test case. Test cases are written in 3 steps: Arrange, Act, Assert. I ARRANGE by accessing the calculator at the below address, then I use the data-cy values I gave all the clickable buttons to ACT and select the operations and numbers I want, and lastly I ASSERT that I should get back a certain value in the results display. 
+At this point, the 3 enemies are initialized, the hero has been created, and it is time to start the battling. There are 3 rounds with a Hero turn and an Enemy turn. The Hero can Attack or Heal. Random number generators are compared to the luck, ugliness, and rage properties to determine if a Critical Hit is landed or if you take damage.
+As all the rounds as similar, when I make my next update to this project, I will create a Round class to remove some repetition. Methods for heroAttack(), heroHeal(), enemyAttack(), and enemyHeal() will also be added for the same reasons.
 
-All oparations have been thoroughly tested including Percent, Negative/Positive, and Clear.
+Below is the code for the first round.
+````javascript
+// Round 1 (Opponent 1)
 
+        for (int i = 0; i < 100; i++) {
+            if (hero.getHealth() != 0 && enemy1.getHealth() != 0) {
+                TypeWriter.type("Options: Enter 1 for ATTACK (does between 0-30 damage)   or   Enter 2 for HEAL (Replenish 20-30 life force by drinking some delicious tea");
+                int choice = myScanner.nextInt();
+                // Hero Attack Option
+                if (choice == 1) {
+                    int heroDamageRandom = (int) (Math.random() * (10) + 1);
+                    if (heroDamageRandom < hero.getLuck() && heroDamageRandom != 1) {
+                        TypeWriter.type("You throw a tapioca pearl right into their eye! That must have HURT to get hit by a small wet squishy sweet! You are feeling it today! Luck on your side!");
+                        enemy1.setHealth(enemy1.getHealth() - 30);
+                    } else if (heroDamageRandom > 1) {
+                        int heroRandomAttack = (int) (Math.random() * (3) + 1);
+                        if (heroRandomAttack == 1) {
+                            TypeWriter.type("You shove the straw up your their nose! Savage!!!");
+                        } else if (heroRandomAttack == 2) {
+                            TypeWriter.type("You pull out some mom jokes and MAN did they hurt! They are down on one knee from the pain!");
+                        } else {
+                            TypeWriter.type("You whip your hair back and forth and slap well conditioned hair across your opponents ugly face");
+                        }
+                        enemy1.setHealth(enemy1.getHealth() - 20);
+                    } else {
+                        TypeWriter.type("You mistakenly punch yourself in the face! Pathetic!");
+                        hero.setHealth(hero.getHealth() - 10);
+                        TypeWriter.type("You are down to " + hero.getHealth() + "health");
+                    }
+                    if (enemy1.getHealth() < 0) {
+                        enemy1.setHealth(0);
+                    }
+                    if (enemy1.getHealth() > 0) {
+                        TypeWriter.type("Enemy has " + enemy1.getHealth() + " health left.");
+                    } else {
+                        TypeWriter.type("Enemy has 0 health left and lie in a puddle of bubble tea!");
+                        TypeWriter.type(" ");
+                        TypeWriter.type("You win!");
+                    }
+                    int uglinessDamageRandom = (int) (Math.random() * (10) + 1);
+                    if (enemy1.getUgliness() > uglinessDamageRandom) {
+                        hero.setHealth(hero.getHealth()-5);
+                        if (hero.getHealth() < 0) {
+                            hero.setHealth(0);
+                        }
+                        TypeWriter.type("You forget to shield your eyes and sustain damage from the ugliness of your opponent.. You have " + hero.getHealth() + " health left.");
+                        if (hero.getHealth() == 0) {
+                            TypeWriter.type("You just couldn't handle all the ugly and get knocked out!");
+                        }
+
+                    }
+                }
+                // Hero Heal Option
+                if (choice == 2) {
+                    int heroHealRandom = (int) (Math.random() * (10) + 20);
+                    hero.setHealth(hero.getHealth() + heroHealRandom);
+                    if (hero.getHealth() > 100) {
+                        hero.setHealth(100);
+                    }
+                    if (heroHealRandom >= 26) {
+                        TypeWriter.type("You take a sip of tea and have all the luck! You sucked up a Tapioca pearl and are feeling recharged! You have " + hero.getHealth() + " now.");
+                    } else {
+                        TypeWriter.type("You take this chance to take a sip of tea but NO TAPIOCA CAME UP THE STRAW...minimal heal.. You have " + hero.getHealth() + " now.");
+                    }
+                }
+                if (enemy1.getHealth() != 0) {
+                    int enemyRandomMove = (int) (Math.random() * (2) + 1);
+                    // Enemy Attack Option
+                    if (enemyRandomMove == 1) {
+                        TypeWriter.type(enemy1.getName() + " Attacks!");
+                        int enemyDamageRandom = (int) (Math.random() * (10) + 1);
+                        if (enemyDamageRandom < enemy1.getRage() && enemyDamageRandom != 1) {
+                            TypeWriter.type("He grabs another person in line over their head and throws them on top of you!! A rare and painful move!");
+                            hero.setHealth(hero.getHealth() - 30);
+                        } else if (enemyDamageRandom > 1) {
+                            int enemyRandomAttack = (int) (Math.random() * (3) + 1);
+                            if (enemyRandomAttack == 1) {
+                                TypeWriter.type("Somebody has been watching the Karate Kid! You take a crane kick to the FACE!");
+                            } else if (enemyRandomAttack == 2) {
+                                TypeWriter.type("'What's that?' and points at your chest. OH NO, you fell for it! Finger smashes your nose when you look down! What a loser!");
+                            } else {
+                                TypeWriter.type("Classic hair pull! He knows how to get you where it hurts!");
+                            }
+                            hero.setHealth(hero.getHealth() - 20);
+                        } else {
+                            TypeWriter.type("He goes in for a flying kick and completely misses! Flies through the window of the Bubble Tea Shop and takes an Innocent out with them");
+                            enemy1.setHealth(enemy1.getHealth() - 10);
+                            if (enemy1.getHealth() < 0) {
+                                enemy1.setHealth(0);
+                            }
+                            TypeWriter.type("He is one tough badger but he has " + enemy1.getHealth() + " health left now.");
+                        }
+                        if (hero.getHealth() < 0) {
+                            hero.setHealth(0);
+                        }
+                        TypeWriter.type("You now have " + hero.getHealth() + " health.");
+                    }
+                    // Enemy Heal Option
+                    if (enemyRandomMove == 2) {
+                        TypeWriter.type(enemy1.getName() + " Heals...Boring but effective");
+                        enemy1.setHealth(enemy1.getHealth() + 20);
+                        if (enemy1.getHealth() > 100) {
+                            enemy1.setHealth(100);
+                        }
+                        TypeWriter.type("Enemy now has " + enemy1.getHealth() + " health.");
+                    }
+                    if (hero.getHealth() == 0) {
+                        TypeWriter.type("You lose!");
+                    }
+                }
+            }
+        }
 ````
-describe('Long operations', () => {
-  it('9 + 3 - 10 * 60 / 5 equals 24', () => {
-    //ARRANGE
-    cy.visit('http://127.0.0.1:5502/index.html');
-    //ACT
-    cy.get('[data-cy=nine]').click();
-    cy.get('[data-cy=plus]').click();
-    cy.get('[data-cy=three]').click();
-    cy.get('[data-cy=minus]').click();
-    cy.get('[data-cy=one]').click();
-    cy.get('[data-cy=zero]').click();
-    cy.get('[data-cy=times]').click();
-    cy.get('[data-cy=six]').click();
-    cy.get('[data-cy=zero]').click();
-    cy.get('[data-cy=divide]').click();
-    cy.get('[data-cy=five]').click();
-    cy.get('[data-cy=equals]').click();
-    //ASSERT
-    cy.get('[data-cy=display-result]').should('have.text', '24')
-  })
-})
-````
 
-
-## To handle the negative/positive button and equals, much of the same logical thinking just needs to be done. If you are working on creating your own calculator project, go ahead and clone downthe code and take a look at how the rest was done including the testing!
+## Download the code and play! Much of this game is an inside joke between myself and my coworkers and I found it very enjoyable to say the least :) 
