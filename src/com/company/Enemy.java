@@ -1,17 +1,13 @@
 package com.company;
 
 public class Enemy extends Person{
-    public int ugliness;
-    public int rage;
+    private int ugliness;
+    private int rage;
 
     public Enemy(int health, String name, String tea, int ugliness, int rage) {
         super(health, name, tea);
         this.ugliness = ugliness;
         this.rage = rage;
-    }
-
-    public boolean isDefeated() {
-        return false;
     }
 
     public int getUgliness() {
