@@ -1,16 +1,16 @@
 package com.company;
 
 public class Hero extends Person{
-    public int luck;
+    private int luck;
 
     public Hero(int health, String name, String tea, int luck) {
         super(health, name, tea);
         this.luck = luck;
     }
 
-    public void setHealth(int health) {
+//    public void setHealth(int health) {
         // do your checks to see if goes below zero?
-    }
+//    }
 
 //    public void heroAttack () {
 //        System.out.println("You whip your hair back and forth and slap well conditioned hair across your opponents ugly face");

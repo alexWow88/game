@@ -1,9 +1,9 @@
 package com.company;
 
 public class Person {
-    public int health = 100;
-    public String name;
-    public String tea;
+    private int health = 100;
+    private String name;
+    private String tea;
 
     public Person(int health, String name, String tea) {
         this.health = health;
