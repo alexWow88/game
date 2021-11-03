@@ -1,24 +1,18 @@
-![alt text](./assets/images/readme-image.PNG) 
+![alt text](./assets/images/bubble-tea.PNG) 
 # Bubble Tea Adventure Game
-A recreation of the iPhone calculator. All the basic calculator functionality you would need on your phone and on the go!
+A whacky text-based battle game where you play as a crazed Bubble Tea junky who constantly gets into fights at the Bubble Tea shop. You just can't handle your Bubble Tea!
 
 ## General Info 
-I made this during week 3 of my software development course at _nology. 
-
-This basic calculator comes with its challenges when coding. Functions must be written to handle On Click Events and handle the computations regardless of what other numbers or operators have already been clicked. Some clever play with Arrays, Strings, Splits, and If Statements to get it to cover all the bases.
-All operations have been thoroughly End-to-End Tested using Cypress.
+I made this during week 7 of my software development course at _nology. 
+This project was used to showcase knowledge of Classes and extending off a Class as well as accessing/changing properties via Getters and Setters. This game is purely text-based and played from the Terminal.
 
 ## Technologies used
-* Javascript ES6
-* HTML 5
-* CSS 3
-* End-To-End Testing with Cypress
+* Java
 
-## What can it do
-This calculator can handle all the basic operations of your typical cell phone calculator
-
-* Take integer and decimal values
-* Handle basic operations: Addition, Subtraction, Multiplication, Division
+## Steps of the game:
+* Pick your name
+* Pick how lucky you feel that day (luckier will make the game easier as you are more likely to do a Critical Hit on attack)
+* Pick your favorite Bubble Tea (will be mentioned in game at various times)
 * Clear displays
 * 2 Displays: Display the result of the current operations pressed and a list of all buttons pressed
 * Negative/Positive button to change the result to the inverse
