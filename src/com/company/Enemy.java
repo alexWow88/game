@@ -10,6 +10,19 @@ public class Enemy extends Person{
         this.rage = rage;
     }
 
+    public void enemyHeal( Enemy enemy, int round ) throws InterruptedException {
+        TypeWriter.type(enemy.getName() + " Heals...Boring but effective");
+        if (round == 3) {
+            enemy.setHealth(enemy.getHealth() + 25);
+        } else {
+            enemy.setHealth(enemy.getHealth() + 20);
+        }
+        if (enemy.getHealth() > 100) {
+            enemy.setHealth(100);
+        }
+        TypeWriter.type("Enemy now has " + enemy.getHealth() + " health.");
+    }
+
     public int getUgliness() {
         return ugliness;
     }
