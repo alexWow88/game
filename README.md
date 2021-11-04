@@ -79,9 +79,9 @@ public class TypeWriter {
 ````
 
 At this point, the 3 enemies are initialized, the hero has been created, and it is time to start the battling. There are 3 rounds with a Hero turn and an Enemy turn. The Hero can Attack or Heal. Random number generators are compared to the luck, ugliness, and rage properties to determine if a Critical Hit is landed or if you take damage.
-As all the rounds as similar, when I make my next update to this project, I will create a Round class to remove some repetition. Methods for heroAttack(), heroHeal(), enemyAttack(), and enemyHeal() will also be added for the same reasons.
+To keep the code as DRY as possible, methods for heroAttack(), heroHeal(), enemyAttack(), and enemyHeal() are added to classes Hero and Enemy.
 
-Below is the code for the first round.
+Below is the code for the first round... and a snippet of code from the heroAttack method which uses a switch case to call the attacks of the correct opponent.
 ````javascript
 // Round 1 (Opponent 1)
 
@@ -91,101 +91,22 @@ Below is the code for the first round.
                 int choice = myScanner.nextInt();
                 // Hero Attack Option
                 if (choice == 1) {
-                    int heroDamageRandom = (int) (Math.random() * (10) + 1);
-                    if (heroDamageRandom < hero.getLuck() && heroDamageRandom != 1) {
-                        TypeWriter.type("You throw a tapioca pearl right into their eye! That must have HURT to get hit by a small wet squishy sweet! You are feeling it today! Luck on your side!");
-                        enemy1.setHealth(enemy1.getHealth() - 30);
-                    } else if (heroDamageRandom > 1) {
-                        int heroRandomAttack = (int) (Math.random() * (3) + 1);
-                        if (heroRandomAttack == 1) {
-                            TypeWriter.type("You shove the straw up your their nose! Savage!!!");
-                        } else if (heroRandomAttack == 2) {
-                            TypeWriter.type("You pull out some mom jokes and MAN did they hurt! They are down on one knee from the pain!");
-                        } else {
-                            TypeWriter.type("You whip your hair back and forth and slap well conditioned hair across your opponents ugly face");
-                        }
-                        enemy1.setHealth(enemy1.getHealth() - 20);
-                    } else {
-                        TypeWriter.type("You mistakenly punch yourself in the face! Pathetic!");
-                        hero.setHealth(hero.getHealth() - 10);
-                        TypeWriter.type("You are down to " + hero.getHealth() + "health");
-                    }
-                    if (enemy1.getHealth() < 0) {
-                        enemy1.setHealth(0);
-                    }
-                    if (enemy1.getHealth() > 0) {
-                        TypeWriter.type("Enemy has " + enemy1.getHealth() + " health left.");
-                    } else {
-                        TypeWriter.type("Enemy has 0 health left and lie in a puddle of bubble tea!");
-                        TypeWriter.type(" ");
-                        TypeWriter.type("You win!");
-                    }
-                    int uglinessDamageRandom = (int) (Math.random() * (10) + 1);
-                    if (enemy1.getUgliness() > uglinessDamageRandom) {
-                        hero.setHealth(hero.getHealth()-5);
-                        if (hero.getHealth() < 0) {
-                            hero.setHealth(0);
-                        }
-                        TypeWriter.type("You forget to shield your eyes and sustain damage from the ugliness of your opponent.. You have " + hero.getHealth() + " health left.");
-                        if (hero.getHealth() == 0) {
-                            TypeWriter.type("You just couldn't handle all the ugly and get knocked out!");
-                        }
-
-                    }
+                    hero.heroAttack(hero, enemy1, 1);
+                    hero.sustainUglinessDamageCheck(hero, enemy1, 1);
                 }
                 // Hero Heal Option
                 if (choice == 2) {
-                    int heroHealRandom = (int) (Math.random() * (10) + 20);
-                    hero.setHealth(hero.getHealth() + heroHealRandom);
-                    if (hero.getHealth() > 100) {
-                        hero.setHealth(100);
-                    }
-                    if (heroHealRandom >= 26) {
-                        TypeWriter.type("You take a sip of tea and have all the luck! You sucked up a Tapioca pearl and are feeling recharged! You have " + hero.getHealth() + " now.");
-                    } else {
-                        TypeWriter.type("You take this chance to take a sip of tea but NO TAPIOCA CAME UP THE STRAW...minimal heal.. You have " + hero.getHealth() + " now.");
-                    }
+                    hero.heroHeal(hero, 1);
                 }
                 if (enemy1.getHealth() != 0) {
                     int enemyRandomMove = (int) (Math.random() * (2) + 1);
                     // Enemy Attack Option
                     if (enemyRandomMove == 1) {
-                        TypeWriter.type(enemy1.getName() + " Attacks!");
-                        int enemyDamageRandom = (int) (Math.random() * (10) + 1);
-                        if (enemyDamageRandom < enemy1.getRage() && enemyDamageRandom != 1) {
-                            TypeWriter.type("He grabs another person in line over their head and throws them on top of you!! A rare and painful move!");
-                            hero.setHealth(hero.getHealth() - 30);
-                        } else if (enemyDamageRandom > 1) {
-                            int enemyRandomAttack = (int) (Math.random() * (3) + 1);
-                            if (enemyRandomAttack == 1) {
-                                TypeWriter.type("Somebody has been watching the Karate Kid! You take a crane kick to the FACE!");
-                            } else if (enemyRandomAttack == 2) {
-                                TypeWriter.type("'What's that?' and points at your chest. OH NO, you fell for it! Finger smashes your nose when you look down! What a loser!");
-                            } else {
-                                TypeWriter.type("Classic hair pull! He knows how to get you where it hurts!");
-                            }
-                            hero.setHealth(hero.getHealth() - 20);
-                        } else {
-                            TypeWriter.type("He goes in for a flying kick and completely misses! Flies through the window of the Bubble Tea Shop and takes an Innocent out with them");
-                            enemy1.setHealth(enemy1.getHealth() - 10);
-                            if (enemy1.getHealth() < 0) {
-                                enemy1.setHealth(0);
-                            }
-                            TypeWriter.type("He is one tough badger but he has " + enemy1.getHealth() + " health left now.");
-                        }
-                        if (hero.getHealth() < 0) {
-                            hero.setHealth(0);
-                        }
-                        TypeWriter.type("You now have " + hero.getHealth() + " health.");
+                        enemy1.enemyAttack(hero, enemy1, 1);
                     }
                     // Enemy Heal Option
                     if (enemyRandomMove == 2) {
-                        TypeWriter.type(enemy1.getName() + " Heals...Boring but effective");
-                        enemy1.setHealth(enemy1.getHealth() + 20);
-                        if (enemy1.getHealth() > 100) {
-                            enemy1.setHealth(100);
-                        }
-                        TypeWriter.type("Enemy now has " + enemy1.getHealth() + " health.");
+                        enemy1.enemyHeal(enemy1, 1);
                     }
                     if (hero.getHealth() == 0) {
                         TypeWriter.type("You lose!");
@@ -193,6 +114,40 @@ Below is the code for the first round.
                 }
             }
         }
+
+...
+
+public void heroAttack (Hero hero, Enemy enemy, int round) throws InterruptedException {
+        int heroDamageRandom = (int) (Math.random() * (10) + 1);
+        if (heroDamageRandom < hero.getLuck() && heroDamageRandom != 1) {
+            if (round == 1) {
+                TypeWriter.type("You throw a tapioca pearl right into their eye! That must have HURT to get hit by a small wet squishy sweet! You are feeling it today! Luck on your side!");
+                enemy.setHealth(enemy.getHealth() - 30);
+            } else if (round == 2) {
+                TypeWriter.type("You hold up a mirror and reflect his ugliness back at him and he gets an EYE FULL! So rare to pull that move off! Mega Lucky!");
+                enemy.setHealth(enemy.getHealth() - 30);
+            } else if (round == 3 && hero.getNumberOfTeas() > 0) {
+                TypeWriter.type("Oh no you didn't!! You throw one of your " + hero.getNumberOfTeas() + " Bubble Teas and clock him right in the face! Massive damage!!");
+                hero.setNumberOfTeas(hero.getNumberOfTeas() - 1);
+                enemy.setHealth(enemy.getHealth() - 30);
+            } else {
+                TypeWriter.type("Oh no!! You try to throw another tea at him but you are out! You KNEW you should have bought more!");
+            }
+        } else if (heroDamageRandom > 1) {
+            int heroRandomAttack = (int) (Math.random() * (3) + 1);
+
+            if (heroRandomAttack == 1) {
+                switch (round) {
+                    case 1: TypeWriter.type("You shove the straw up your their nose! Savage!!!");
+                    break;
+                    case 2: TypeWriter.type("You toss your tea up in the air! Your opponent jumps up to catch it and you slap the Bejesus out of him and safely catch your delicious beverage! You would have thought he would have remembered your signature move (you do this a lot)");
+                    break;
+                    case 3: TypeWriter.type("You charge the man and CLOTHES LINE him! Lands flat on his back on the hard pavement.");
+                    break;
+                    default: break;
+                } 
+
+...
 ````
 
 ## Download the code and play! Much of this game is an inside joke between myself and my coworkers and I found it very enjoyable to say the least :) 
