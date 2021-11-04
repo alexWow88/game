@@ -91,33 +91,7 @@ public class Main {
                     int enemyRandomMove = (int) (Math.random() * (2) + 1);
                     // Enemy Attack Option
                     if (enemyRandomMove == 1) {
-                        TypeWriter.type(enemy1.getName() + " Attacks!");
-                        int enemyDamageRandom = (int) (Math.random() * (10) + 1);
-                        if (enemyDamageRandom < enemy1.getRage() && enemyDamageRandom != 1) {
-                            TypeWriter.type("He grabs another person in line over their head and throws them on top of you!! A rare and painful move!");
-                            hero.setHealth(hero.getHealth() - 30);
-                        } else if (enemyDamageRandom > 1) {
-                            int enemyRandomAttack = (int) (Math.random() * (3) + 1);
-                            if (enemyRandomAttack == 1) {
-                                TypeWriter.type("Somebody has been watching the Karate Kid! You take a crane kick to the FACE!");
-                            } else if (enemyRandomAttack == 2) {
-                                TypeWriter.type("'What's that?' and points at your chest. OH NO, you fell for it! Finger smashes your nose when you look down! What a loser!");
-                            } else {
-                                TypeWriter.type("Classic hair pull! He knows how to get you where it hurts!");
-                            }
-                            hero.setHealth(hero.getHealth() - 20);
-                        } else {
-                            TypeWriter.type("He goes in for a flying kick and completely misses! Flies through the window of the Bubble Tea Shop and takes an Innocent out with them");
-                            enemy1.setHealth(enemy1.getHealth() - 10);
-                            if (enemy1.getHealth() < 0) {
-                                enemy1.setHealth(0);
-                            }
-                            TypeWriter.type("He is one tough badger but he has " + enemy1.getHealth() + " health left now.");
-                        }
-                        if (hero.getHealth() < 0) {
-                            hero.setHealth(0);
-                        }
-                        TypeWriter.type("You now have " + hero.getHealth() + " health.");
+                        enemy1.enemyAttack(hero, enemy1, 1);
                     }
                     // Enemy Heal Option
                     if (enemyRandomMove == 2) {
@@ -152,38 +126,7 @@ public class Main {
                     int enemyRandomMove = (int) (Math.random() * (2) + 1);
                     // Enemy Attack Option
                     if (enemyRandomMove == 1) {
-                        TypeWriter.type(enemy2.getName() + " Attacks!");
-                        int enemyDamageRandom = (int) (Math.random() * (10) + 1);
-                        if (enemyDamageRandom < enemy2.getRage() && enemyDamageRandom != 1) {
-                            TypeWriter.type("Signature move! He moves with lightning speed and the next thing you know, he is drinking from your straw!! You feel your life force DRAINING!");
-                            enemy2.setHealth(enemy2.getHealth() + 10);
-                            if (enemy2.getHealth() > 100) {
-                                enemy2.setHealth(100);
-                            }
-                            TypeWriter.type("Enemy regains health and is now at " + enemy2.getHealth() + " health");
-                            hero.setHealth(hero.getHealth() - 30);
-                        } else if (enemyDamageRandom > 1) {
-                            int enemyRandomAttack = (int) (Math.random() * (3) + 1);
-                            if (enemyRandomAttack == 1) {
-                                TypeWriter.type("He grabs an Innocent's bubble tea and pours it slowly on the ground! Who would do such a thing!! You scream inaudibly and shed a tear for your fallen comrade");
-                            } else if (enemyRandomAttack == 2) {
-                                TypeWriter.type("He says " + hero.getTea() + " Bubble Tea sucks! How could he! You start to question all your life choices.. you will definitely talk about this moment in your weekly therapy session.");
-                            } else {
-                                TypeWriter.type("Classic hair pull! He knows how to get you where it hurts!");
-                            }
-                            hero.setHealth(hero.getHealth() - 20);
-                        } else {
-                            TypeWriter.type("He goes in for a flying kick and completely misses! Flies through the window of the Bubble Tea Shop and takes an Innocent out with them");
-                            enemy2.setHealth(enemy2.getHealth() - 10);
-                            if (enemy2.getHealth() < 0) {
-                                enemy2.setHealth(0);
-                            }
-                            TypeWriter.type("He is one tough badger but he has " + enemy2.getHealth() + " health left now.");
-                        }
-                        if (hero.getHealth() < 0) {
-                            hero.setHealth(0);
-                        }
-                        TypeWriter.type("You now have " + hero.getHealth() + " health.");
+                        enemy2.enemyAttack(hero, enemy2, 2);
                     }
                     // Enemy Heal Option
                     if (enemyRandomMove == 2) {
@@ -218,33 +161,7 @@ public class Main {
                         int enemyRandomMove = (int) (Math.random() * (2) + 1);
                         // Enemy Attack Option
                         if (enemyRandomMove == 1) {
-                            TypeWriter.type(enemy3.getName() + " Attacks!");
-                            int enemyDamageRandom = (int) (Math.random() * (10) + 1);
-                            if (enemyDamageRandom < enemy3.getRage() && enemyDamageRandom != 1) {
-                                TypeWriter.type("Signature move! 2 handed punch right in the sternum sending you flying through the store window!");
-                                hero.setHealth(hero.getHealth() - 30);
-                            } else if (enemyDamageRandom > 1) {
-                                int enemyRandomAttack = (int) (Math.random() * (3) + 1);
-                                if (enemyRandomAttack == 1) {
-                                    TypeWriter.type("He pulls out your paycheck and rips it up! Your going to have to live off the free fruit supplied at work at this rate..");
-                                } else if (enemyRandomAttack == 2) {
-                                    TypeWriter.type("He jedi force grabs you by throat! The force is strong with this one");
-                                } else {
-                                    TypeWriter.type("Does a complete back flip while KICKING you in the CHIN!");
-                                }
-                                hero.setHealth(hero.getHealth() - 20);
-                            } else {
-                                TypeWriter.type("What bad luck! Pulls a hammy before he can attack and winces in pain!");
-                                enemy3.setHealth(enemy3.getHealth() - 10);
-                                if (enemy3.getHealth() < 0) {
-                                    enemy3.setHealth(0);
-                                }
-                                TypeWriter.type("He is one tough badger but he has " + enemy3.getHealth() + " health left now.");
-                            }
-                            if (hero.getHealth() < 0) {
-                                hero.setHealth(0);
-                            }
-                            TypeWriter.type("You now have " + hero.getHealth() + " health.");
+                            enemy3.enemyAttack(hero, enemy3, 3);
                         }
                         // Enemy Heal Option
                         if (enemyRandomMove == 2) {
