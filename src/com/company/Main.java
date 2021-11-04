@@ -42,12 +42,13 @@ public class Main {
         System.out.println("Bubble tea you are thirsty for: ");
         String tea = myScanner.next();
 
-        Hero hero = new Hero(100, name, tea, luck);
+        int numberOfTeas = (int) (Math.random() * (5 + 1) + 5);
+
+        Hero hero = new Hero(100, name, tea, luck, numberOfTeas);
 
         // Setting the story of the Game
 
         TypeWriter.type(hero.getName() + ", the " + hero.getTea() + " Bubble Tea maniac, continues his Bubble Tea Adventures..");
-        int numberOfTeas = (int) (Math.random() * (5 + 1) + 5);
 
         Enemy enemy1 = new Enemy(100, "Sound as a Pound, Andy", "Mango Tapioca", 3, 4);
 
@@ -55,7 +56,7 @@ public class Main {
 
         Enemy enemy3 = new Enemy(100, "I'm Your Boss, Ollie, B****", "Best Flavour Imaginable", 6, 6);
 
-        TypeWriter.type("You are late for work but feeling good because you just picked up " + numberOfTeas + " Bubble teas at BubbleTeas4Life");
+        TypeWriter.type("You are late for work but feeling good because you just picked up " + hero.getNumberOfTeas() + " Bubble teas at BubbleTeas4Life");
         TypeWriter.type("You run out of the bubble tea shop and realise something is very wrong....");
         TypeWriter.type("3 angry dudes are standing in front of you blocking your way...");
         TypeWriter.type("The last thing you remember is that you were 4th in line behind these guys....");
@@ -79,60 +80,12 @@ public class Main {
                 int choice = myScanner.nextInt();
                 // Hero Attack Option
                 if (choice == 1) {
-                    int heroDamageRandom = (int) (Math.random() * (10) + 1);
-                    if (heroDamageRandom < hero.getLuck() && heroDamageRandom != 1) {
-                        TypeWriter.type("You throw a tapioca pearl right into their eye! That must have HURT to get hit by a small wet squishy sweet! You are feeling it today! Luck on your side!");
-                        enemy1.setHealth(enemy1.getHealth() - 30);
-                    } else if (heroDamageRandom > 1) {
-                        int heroRandomAttack = (int) (Math.random() * (3) + 1);
-                        if (heroRandomAttack == 1) {
-                            TypeWriter.type("You shove the straw up your their nose! Savage!!!");
-                        } else if (heroRandomAttack == 2) {
-                            TypeWriter.type("You pull out some mom jokes and MAN did they hurt! They are down on one knee from the pain!");
-                        } else {
-                            TypeWriter.type("You whip your hair back and forth and slap well conditioned hair across your opponents ugly face");
-                        }
-                        enemy1.setHealth(enemy1.getHealth() - 20);
-                    } else {
-                        TypeWriter.type("You mistakenly punch yourself in the face! Pathetic!");
-                        hero.setHealth(hero.getHealth() - 10);
-                        TypeWriter.type("You are down to " + hero.getHealth() + "health");
-                    }
-                    if (enemy1.getHealth() < 0) {
-                        enemy1.setHealth(0);
-                    }
-                    if (enemy1.getHealth() > 0) {
-                        TypeWriter.type("Enemy has " + enemy1.getHealth() + " health left.");
-                    } else {
-                        TypeWriter.type("Enemy has 0 health left and lie in a puddle of bubble tea!");
-                        TypeWriter.type(" ");
-                        TypeWriter.type("You win!");
-                    }
-                    int uglinessDamageRandom = (int) (Math.random() * (10) + 1);
-                    if (enemy1.getUgliness() > uglinessDamageRandom) {
-                        hero.setHealth(hero.getHealth()-5);
-                        if (hero.getHealth() < 0) {
-                            hero.setHealth(0);
-                        }
-                        TypeWriter.type("You forget to shield your eyes and sustain damage from the ugliness of your opponent.. You have " + hero.getHealth() + " health left.");
-                        if (hero.getHealth() == 0) {
-                            TypeWriter.type("You just couldn't handle all the ugly and get knocked out!");
-                        }
-
-                    }
+                    hero.heroAttack(hero, enemy1, 1);
+                    hero.sustainUglinessDamageCheck(hero, enemy1, 1);
                 }
                 // Hero Heal Option
                 if (choice == 2) {
-                    int heroHealRandom = (int) (Math.random() * (10) + 20);
-                    hero.setHealth(hero.getHealth() + heroHealRandom);
-                    if (hero.getHealth() > 100) {
-                        hero.setHealth(100);
-                    }
-                    if (heroHealRandom >= 26) {
-                        TypeWriter.type("You take a sip of tea and have all the luck! You sucked up a Tapioca pearl and are feeling recharged! You have " + hero.getHealth() + " now.");
-                    } else {
-                        TypeWriter.type("You take this chance to take a sip of tea but NO TAPIOCA CAME UP THE STRAW...minimal heal.. You have " + hero.getHealth() + " now.");
-                    }
+                    hero.heroHeal(hero, 1);
                 }
                 if (enemy1.getHealth() != 0) {
                     int enemyRandomMove = (int) (Math.random() * (2) + 1);
@@ -168,12 +121,7 @@ public class Main {
                     }
                     // Enemy Heal Option
                     if (enemyRandomMove == 2) {
-                        TypeWriter.type(enemy1.getName() + " Heals...Boring but effective");
-                        enemy1.setHealth(enemy1.getHealth() + 20);
-                        if (enemy1.getHealth() > 100) {
-                            enemy1.setHealth(100);
-                        }
-                        TypeWriter.type("Enemy now has " + enemy1.getHealth() + " health.");
+                        enemy1.enemyHeal(enemy1, 1);
                     }
                     if (hero.getHealth() == 0) {
                         TypeWriter.type("You lose!");
@@ -193,62 +141,12 @@ public class Main {
                 int choice = myScanner.nextInt();
                 // Hero Attack Option
                 if (choice == 1) {
-                    int heroDamageRandom = (int) (Math.random() * (10) + 1);
-                    if (heroDamageRandom < hero.getLuck() && heroDamageRandom != 1) {
-                        TypeWriter.type("You hold up a mirror and reflect his ugliness back at him and he gets an EYE FULL! So rare to pull that move off! Mega Lucky!");
-                        enemy2.setHealth(enemy2.getHealth() - 30);
-                    } else if (heroDamageRandom > 1) {
-                        int heroRandomAttack = (int) (Math.random() * (3) + 1);
-                        if (heroRandomAttack == 1) {
-                            TypeWriter.type("You toss your tea up in the air! Your opponent jumps up to catch it and you slap the Bejesus out of him and safely catch your delicious beverage! You would have thought he would have remembered your signature move (you do this a lot)");
-                        } else if (heroRandomAttack == 2) {
-                            TypeWriter.type("You land some well placed ice cube throws right in their kidneys! ");
-                        } else {
-                            TypeWriter.type("You whip your hair back and forth and slap well conditioned hair across your opponents ugly face");
-                        }
-                        enemy2.setHealth(enemy2.getHealth() - 20);
-                    } else {
-                        TypeWriter.type("You decide to throw a punch but you forget to actually throw it! Leaving yourself wide open for a quick 1-2 slap!");
-                        hero.setHealth(hero.getHealth() - 10);
-                        if (hero.getHealth() < 0) {
-                            hero.setHealth(0);
-                        }
-                        TypeWriter.type("You are down to " + hero.getHealth() + " health");
-                    }
-                    if (enemy2.getHealth() < 0) {
-                        enemy2.setHealth(0);
-                    }
-                    if (enemy2.getHealth() > 0) {
-                        TypeWriter.type("Enemy has " + enemy2.getHealth() + " health left.");
-                    } else {
-                        TypeWriter.type("Enemy has 0 health left and lie in a puddle of bubble tea!");
-                        TypeWriter.type(" ");
-                        TypeWriter.type("You win!");
-                    }
-                    int uglinessDamageRandom = (int) (Math.random() * (10) + 1);
-                    if (enemy2.getUgliness() > uglinessDamageRandom) {
-                        hero.setHealth(hero.getHealth() - 5);
-                        if (hero.getHealth() < 0) {
-                            hero.setHealth(0);
-                        }
-                        TypeWriter.type("You forget to shield your eyes and sustain damage from the ugliness of your opponent.. You have " + hero.getHealth() + " health left.");
-                        if (hero.getHealth() == 0) {
-                            TypeWriter.type("You just couldn't handle all the ugly and get knocked out!");
-                        }
-                    }
+                    hero.heroAttack(hero, enemy2, 2);
+                    hero.sustainUglinessDamageCheck(hero, enemy2, 2);
                 }
                 // Hero Heal Option
                 if (choice == 2) {
-                    int heroHealRandom = (int) (Math.random() * (10) + 20);
-                    hero.setHealth(hero.getHealth() + heroHealRandom);
-                    if (hero.getHealth() > 100) {
-                        hero.setHealth(100);
-                    }
-                    if (heroHealRandom >= 26) {
-                        TypeWriter.type("You take a sip of tea and have all the luck! You sucked up a Tapioca pearl and are feeling recharged! You have " + hero.getHealth() + " now.");
-                    } else {
-                        TypeWriter.type("You take this chance to take a sip of tea but NO TAPIOCA CAME UP THE STRAW...minimal heal.. You have " + hero.getHealth() + " now.");
-                    }
+                    hero.heroHeal(hero, 2);
                 }
                 if (enemy2.getHealth() != 0) {
                     int enemyRandomMove = (int) (Math.random() * (2) + 1);
@@ -289,12 +187,7 @@ public class Main {
                     }
                     // Enemy Heal Option
                     if (enemyRandomMove == 2) {
-                        TypeWriter.type(enemy2.getName() + " Heals...Boring but effective");
-                        enemy2.setHealth(enemy2.getHealth() + 20);
-                        if (enemy2.getHealth() > 100) {
-                            enemy2.setHealth(100);
-                        }
-                        TypeWriter.type("Enemy now has " + enemy2.getHealth() + " health.");
+                        enemy2.enemyHeal(enemy2, 2);
                     }
                     if (hero.getHealth() == 0) {
                         TypeWriter.type("You lose!");
@@ -314,71 +207,12 @@ public class Main {
                     int choice = myScanner.nextInt();
                     // Hero Attack Option
                     if (choice == 1) {
-                        int heroDamageRandom = (int) (Math.random() * (10) + 1);
-                        if (heroDamageRandom < hero.getLuck() && heroDamageRandom != 1) {
-                            if (numberOfTeas > 0) {
-                                TypeWriter.type("Oh no you didn't!! You throw one of your " + numberOfTeas + "and clock him right in the face! Massive damage!!");
-                                numberOfTeas -= 1;
-                                enemy3.setHealth(enemy3.getHealth() - 30);
-                            } else {
-                                TypeWriter.type("Oh no!! You try to throw another tea at him but you are out! You KNEW you should have bought more!");
-                            }
-                        } else if (heroDamageRandom > 1) {
-                            int heroRandomAttack = (int) (Math.random() * (3) + 1);
-                            if (heroRandomAttack == 1) {
-                                TypeWriter.type("You charge the man and CLOTHES LINE him! Lands flat on his back on the hard pavement.");
-                            } else if (heroRandomAttack == 2) {
-                                TypeWriter.type("You threaten to sabotage the team project to miss the client deadline! You thought it would hurt more but it turns out you are not that important to the team anyway..dang..");
-                            } else {
-                                TypeWriter.type("You whip your hair back and forth and slap well conditioned hair across your opponents ugly face");
-                            }
-                            enemy3.setHealth(enemy3.getHealth() - 20);
-                        } else {
-                            TypeWriter.type("You throw a punch but this dude has been going to the gym. You feel your wrist fracture when you hit his rock hard stomach..and you make a mental note to rewatch 300 and Magic Mike");
-                            hero.setHealth(hero.getHealth() - 10);
-                            if (hero.getHealth() < 0) {
-                                hero.setHealth(0);
-                            }
-                            TypeWriter.type("You are down to " + hero.getHealth() + "health");
-                        }
-                        if (enemy3.getHealth() < 0) {
-                            enemy3.setHealth(0);
-                        }
-                        if (enemy3.getHealth() > 0) {
-                            TypeWriter.type("Enemy has " + enemy3.getHealth() + " health left.");
-                        } else {
-                            TypeWriter.type("Enemy has 0 health left and lie in a puddle of bubble tea!");
-                            TypeWriter.type(" ");
-                            TypeWriter.type("You win!");
-                            TypeWriter.type(" ");
-                            TypeWriter.type("You are victorious on this day and take a selfie on the ground with all the victims of this battle. You stroll off to work as if you still have a job with your " + numberOfTeas + " Bubble Teas");
-                            TypeWriter.type(" ");
-                            TypeWriter.type("Thanks for playing!!!!");
-                        }
-                        int uglinessDamageRandom = (int) (Math.random() * (10) + 1);
-                        if (enemy3.getUgliness() > uglinessDamageRandom) {
-                            hero.setHealth(hero.getHealth() - 5);
-                            if (hero.getHealth() < 0) {
-                                hero.setHealth(0);
-                            }
-                            TypeWriter.type("You forget to shield your eyes and sustain damage from the ugliness of your opponent.. You have " + hero.getHealth() + " health left.");
-                            if (hero.getHealth() == 0) {
-                                TypeWriter.type("You just couldn't handle all the ugly and get knocked out!");
-                            }
-                        }
+                        hero.heroAttack(hero, enemy3, 3);
+                        hero.sustainUglinessDamageCheck(hero, enemy3, 3);
                     }
                     // Hero Heal Option
                     if (choice == 2) {
-                        int heroHealRandom = (int) (Math.random() * (10) + 20);
-                        hero.setHealth(hero.getHealth() + heroHealRandom);
-                        if (hero.getHealth() > 100) {
-                            hero.setHealth(100);
-                        }
-                        if (heroHealRandom >= 26) {
-                            TypeWriter.type("You take a sip of tea and have all the luck! You sucked up a Tapioca pearl and are feeling recharged! You have " + hero.getHealth() + " now.");
-                        } else {
-                            TypeWriter.type("You take this chance to take a sip of tea but NO TAPIOCA CAME UP THE STRAW...minimal heal.. You have " + hero.getHealth() + " now.");
-                        }
+                        hero.heroHeal(hero, 3);
                     }
                     if (enemy3.getHealth() != 0) {
                         int enemyRandomMove = (int) (Math.random() * (2) + 1);
@@ -414,12 +248,7 @@ public class Main {
                         }
                         // Enemy Heal Option
                         if (enemyRandomMove == 2) {
-                            TypeWriter.type(enemy3.getName() + " Heals...Boring but effective");
-                            enemy3.setHealth(enemy3.getHealth() + 25);
-                            if (enemy3.getHealth() > 100) {
-                                enemy3.setHealth(100);
-                            }
-                            TypeWriter.type("Enemy now has " + enemy3.getHealth() + " health.");
+                            enemy3.enemyHeal(enemy3, 3);
                         }
                         if (hero.getHealth() == 0) {
                             TypeWriter.type("You lose!");
